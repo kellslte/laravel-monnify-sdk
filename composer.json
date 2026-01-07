@@ -15,7 +15,7 @@
     "authors": [
         {
             "name": "Scwar",
-            "email": "info@scwar.com"
+            "email": "kellslte@proton.me"
         }
     ],
     "require": {
@@ -49,5 +49,11 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-html coverage/",
+        "test:feature": "phpunit tests/Feature",
+        "test:unit": "phpunit tests/Unit"
+    }
 }
