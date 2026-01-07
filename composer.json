@@ -1,0 +1,53 @@
+{
+    "name": "scwar/laravel-monnify-sdk",
+    "description": "A comprehensive Laravel package for Monnify payment gateway integration",
+    "type": "library",
+    "version": "0.1.0",
+    "keywords": [
+        "laravel",
+        "monnify",
+        "payment",
+        "gateway",
+        "sdk",
+        "nigeria"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Scwar",
+            "email": "info@scwar.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "laravel/framework": "^10.0|^11.0",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0",
+        "phpunit/phpunit": "^10.0|^11.0",
+        "mockery/mockery": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Scwar\\Monnify\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Scwar\\Monnify\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Scwar\\Monnify\\MonnifyServiceProvider"
+            ],
+            "aliases": {
+                "Monnify": "Scwar\\Monnify\\Facades\\Monnify"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

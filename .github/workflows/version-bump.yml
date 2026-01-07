@@ -1,0 +1,113 @@
+name: Version Bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version type (major, minor, patch)'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Get current version
+        id: current_version
+        run: |
+          if [ -f composer.json ]; then
+            CURRENT_VERSION=$(grep -oP '"version":\s*"\K[^"]+' composer.json || echo "0.0.0")
+          else
+            CURRENT_VERSION="0.0.0"
+          fi
+          echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT_VERSION"
+
+      - name: Bump version
+        id: bump_version
+        run: |
+          CURRENT="${{ steps.current_version.outputs.CURRENT_VERSION }}"
+          VERSION_TYPE="${{ github.event.inputs.version_type }}"
+          
+          IFS='.' read -r -a parts <<< "$CURRENT"
+          MAJOR="${parts[0]}"
+          MINOR="${parts[1]}"
+          PATCH="${parts[2]}"
+          
+          case "$VERSION_TYPE" in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+          
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+
+      - name: Update composer.json version
+        run: |
+          NEW_VERSION="${{ steps.bump_version.outputs.NEW_VERSION }}"
+          if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' "s/\"version\": \".*\"/\"version\": \"$NEW_VERSION\"/" composer.json
+          else
+            sed -i "s/\"version\": \".*\"/\"version\": \"$NEW_VERSION\"/" composer.json
+          fi
+
+      - name: Create version bump branch and commit
+        id: create_commit
+        run: |
+          NEW_VERSION="${{ steps.bump_version.outputs.NEW_VERSION }}"
+          BRANCH_NAME="bump-version-$NEW_VERSION"
+          git checkout -b "$BRANCH_NAME"
+          git add composer.json
+          git commit -m "Bump version to $NEW_VERSION"
+          git push origin "$BRANCH_NAME"
+          
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ steps.create_commit.outputs.BRANCH_NAME }}
+          title: "Bump version to ${{ steps.bump_version.outputs.NEW_VERSION }}"
+          body: |
+            This PR bumps the version to **${{ steps.bump_version.outputs.NEW_VERSION }}**.
+            
+            **Version Type:** ${{ github.event.inputs.version_type }}
+            **Previous Version:** ${{ steps.current_version.outputs.CURRENT_VERSION }}
+            **New Version:** ${{ steps.bump_version.outputs.NEW_VERSION }}
+            
+            After this PR is merged, you can create a tag (e.g., `v${{ steps.bump_version.outputs.NEW_VERSION }}`) to trigger the release workflow.
+            
+            Or use the GitHub releases UI to create a new release, which will automatically trigger the release workflow.
+          delete-branch: false
+          labels: version-bump
