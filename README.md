@@ -20,8 +20,8 @@ A comprehensive Laravel package for integrating with the Monnify payment gateway
 
 ## Requirements
 
-- PHP >= 8.1
-- Laravel >= 10.0 or >= 11.0
+- PHP >= 8.1 (PHP 8.2+ required for Laravel 12)
+- Laravel >= 10.0, >= 11.0, or >= 12.0
 - Guzzle HTTP Client
 
 ## Installation
