@@ -13,8 +13,8 @@ Runs the test suite across multiple PHP and Laravel versions.
 - Pull requests to `main` or `develop` branches
 
 **Test Matrix:**
-- PHP: 8.1, 8.2, 8.3
-- Laravel: 10.*, 11.*
+- PHP: 8.1, 8.2, 8.3, 8.4
+- Laravel: 10.*, 11.*, 12.*, 13.*
 
 ### 2. Release (`release.yml`)
 
