@@ -22,8 +22,8 @@ class InvoiceResponse
         public readonly ?string $customerEmail = null,
         public readonly ?array $metadata = null,
         public readonly ?string $expiryDate = null,
-        public readonly ?array $createdOn = null,
-        public readonly ?array $updatedOn = null,
+        public readonly ?string $createdOn = null,
+        public readonly ?string $updatedOn = null,
         public readonly ?array $raw = null
     ) {
     }
