@@ -26,8 +26,8 @@ class TransactionResponse
         public readonly ?string $status = null,
         public readonly ?array $metaData = null,
         public readonly ?array $provider = null,
-        public readonly ?array $createdOn = null,
-        public readonly ?array $completedOn = null,
+        public readonly ?string $createdOn = null,
+        public readonly ?string $completedOn = null,
         public readonly ?array $raw = null
     ) {
     }

@@ -15,14 +15,15 @@ class InvoiceResponse
         public readonly ?string $invoiceStatus = null,
         public readonly ?string $checkoutUrl = null,
         public readonly ?float $amount = null,
+        public readonly ?float $amountPaid = null,
         public readonly ?string $currency = null,
         public readonly ?array $lineItems = null,
         public readonly ?string $customerName = null,
         public readonly ?string $customerEmail = null,
         public readonly ?array $metadata = null,
         public readonly ?string $expiryDate = null,
-        public readonly ?array $createdOn = null,
-        public readonly ?array $updatedOn = null,
+        public readonly ?string $createdOn = null,
+        public readonly ?string $updatedOn = null,
         public readonly ?array $raw = null
     ) {
     }
@@ -42,6 +43,7 @@ class InvoiceResponse
             invoiceStatus: $responseBody['invoiceStatus'] ?? null,
             checkoutUrl: $responseBody['checkoutUrl'] ?? null,
             amount: $responseBody['amount'] ?? null,
+            amountPaid: $responseBody['amountPaid'] ?? null,
             currency: $responseBody['currency'] ?? null,
             lineItems: $responseBody['lineItems'] ?? null,
             customerName: $responseBody['customerName'] ?? null,
@@ -66,6 +68,7 @@ class InvoiceResponse
             'invoiceStatus' => $this->invoiceStatus,
             'checkoutUrl' => $this->checkoutUrl,
             'amount' => $this->amount,
+            'amountPaid' => $this->amountPaid,
             'currency' => $this->currency,
             'lineItems' => $this->lineItems,
             'customerName' => $this->customerName,

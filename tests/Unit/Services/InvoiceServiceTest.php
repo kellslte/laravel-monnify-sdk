@@ -58,6 +58,8 @@ class InvoiceServiceTest extends TestCase
                 'responseBody' => [
                     'invoiceReference' => 'INV-123',
                     'invoiceStatus' => 'PAID',
+                    'amount' => 5100.0,
+                    'amountPaid' => 5000.0,
                 ],
             ], 200),
         ]);
@@ -66,6 +68,8 @@ class InvoiceServiceTest extends TestCase
         $invoice = $invoiceService->getDetails('INV-123');
 
         $this->assertSame('INV-123', $invoice->invoiceReference);
+        $this->assertSame(5100.0, $invoice->amount);
+        $this->assertSame(5000.0, $invoice->amountPaid);
 
         Http::assertSent(function ($request) {
             return str_contains($request->url(), '/api/v1/invoice/INV-123/details');
