@@ -33,7 +33,7 @@ class SubaccountService
         $response = Http::withHeaders([
             'Authorization' => $this->authService->getAuthorizationHeader(),
             'Content-Type' => 'application/json',
-        ])->post($this->baseUrl.'/api/v1/subaccounts', $data);
+        ])->post($this->baseUrl.'/api/v1/sub-accounts', $data);
 
         if (! $response->successful()) {
             throw new RequestException(
@@ -70,7 +70,7 @@ class SubaccountService
         $response = Http::withHeaders([
             'Authorization' => $this->authService->getAuthorizationHeader(),
             'Content-Type' => 'application/json',
-        ])->put($this->baseUrl.'/api/v1/subaccounts/'.$subaccountCode, $data);
+        ])->put($this->baseUrl.'/api/v1/sub-accounts/'.$subaccountCode, $data);
 
         if (! $response->successful()) {
             throw new RequestException(
@@ -106,7 +106,7 @@ class SubaccountService
         $response = Http::withHeaders([
             'Authorization' => $this->authService->getAuthorizationHeader(),
             'Content-Type' => 'application/json',
-        ])->delete($this->baseUrl.'/api/v1/subaccounts/'.$subaccountCode);
+        ])->delete($this->baseUrl.'/api/v1/sub-accounts/'.$subaccountCode);
 
         if (! $response->successful()) {
             throw new RequestException(
@@ -142,7 +142,7 @@ class SubaccountService
         $response = Http::withHeaders([
             'Authorization' => $this->authService->getAuthorizationHeader(),
             'Content-Type' => 'application/json',
-        ])->get($this->baseUrl.'/api/v1/subaccounts/'.$subaccountCode);
+        ])->get($this->baseUrl.'/api/v1/sub-accounts/'.$subaccountCode);
 
         if (! $response->successful()) {
             throw new RequestException(
@@ -176,7 +176,7 @@ class SubaccountService
     public function list(array $filters = []): array
     {
         $queryString = http_build_query($filters);
-        $url = $this->baseUrl.'/api/v1/subaccounts?'.$queryString;
+        $url = $this->baseUrl.'/api/v1/sub-accounts?'.$queryString;
 
         $response = Http::withHeaders([
             'Authorization' => $this->authService->getAuthorizationHeader(),

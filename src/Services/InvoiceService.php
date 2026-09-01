@@ -77,7 +77,7 @@ class InvoiceService
         $response = Http::withHeaders([
             'Authorization' => $this->authService->getAuthorizationHeader(),
             'Content-Type' => 'application/json',
-        ])->get($this->baseUrl.'/api/v1/invoice/'.$invoiceReference);
+        ])->get($this->baseUrl.'/api/v1/invoice/'.$invoiceReference.'/details');
 
         if (! $response->successful()) {
             throw new RequestException(
